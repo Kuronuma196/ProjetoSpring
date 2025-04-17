@@ -3,51 +3,62 @@ package org.example.entities;
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Entity
 public class Produto implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ID")
-    private Long id;
+    @Column(name = "PRO_ID")
+    private Long proId;
 
-    @Column(name="NOME")
-    private String nome;
+    @Column(name = "PRO_NOME")
+    private String proNome;
 
-    @ManyToOne
-    @JoinColumn(name = "FORNECEDOR", nullable = false)
-    private Fornecedor fornecedor;
+    @Column(name = "PRO_PRECO_CUSTO", precision = 10, scale = 2)
+    private Double proPrecoCusto;
+
+    @Column(name = "PRO_PRECO_VENDA", precision = 10, scale = 2)
+    private Double proPrecoVenda;
 
     public Produto() {
     }
 
-    public Produto(Long id, String nome, Fornecedor fornecedor) {
-        this.id = id;
-        this.nome = nome;
-        this.fornecedor = fornecedor;
+    public Produto(Long proId, String proNome, Double proPrecoCusto, Double proPrecoVenda) {
+        this.proId = proId;
+        this.proNome = proNome;
+        this.proPrecoCusto = proPrecoCusto;
+        this.proPrecoVenda = proPrecoVenda;
     }
 
-    public Long getId() {
-        return id;
+    public Long getProId() {
+        return proId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setProId(Long proId) {
+        this.proId = proId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getProNome() {
+        return proNome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setProNome(String proNome) {
+        this.proNome = proNome;
     }
 
-    public Fornecedor getFornecedor() {
-        return fornecedor;
+    public Double getProPrecoCusto() {
+        return proPrecoCusto;
     }
 
-    public void setFornecedor(Fornecedor fornecedor) {
-        this.fornecedor = fornecedor;
+    public void setProPrecoCusto(Double proPrecoCusto) {
+        this.proPrecoCusto = proPrecoCusto;
     }
 
+    public Double getProPrecoVenda() {
+        return proPrecoVenda;
+    }
+
+    public void setProPrecoVenda(Double proPrecoVenda) {
+        this.proPrecoVenda = proPrecoVenda;
+    }
 }
