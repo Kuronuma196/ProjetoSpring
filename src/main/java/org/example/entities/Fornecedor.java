@@ -13,15 +13,6 @@ public class Fornecedor implements Serializable {
     @Column(name = "FOR_ID")
     private Long forId;
 
-    @OneToMany(mappedBy = "endFornecedor", cascade = CascadeType.ALL)
-    private List<Endereco> enderecos = new ArrayList<>();
-
-    @OneToMany(mappedBy = "conFornecedor", cascade = CascadeType.ALL)
-    private List<Contato> contatos = new ArrayList<>();
-
-    @Column(name = "FOR_NOME")
-    private String forNome;
-
     @Column(name = "FOR_NOME_FANTASIA")
     private String forNomeFantasia;
 
@@ -36,7 +27,6 @@ public class Fornecedor implements Serializable {
 
     public Fornecedor(Long forId, String forNome, String forNomeFantasia, String forCnpj, String forRazaoSocial) {
         this.forId = forId;
-        this.forNome = forNome;
         this.forNomeFantasia = forNomeFantasia;
         this.forCnpj = forCnpj;
         this.forRazaoSocial = forRazaoSocial;
@@ -48,14 +38,6 @@ public class Fornecedor implements Serializable {
 
     public void setForId(Long forId) {
         this.forId = forId;
-    }
-
-    public String getForNome() {
-        return forNome;
-    }
-
-    public void setForNome(String forNome) {
-        this.forNome = forNome;
     }
 
     public String getForNomeFantasia() {
@@ -82,19 +64,4 @@ public class Fornecedor implements Serializable {
         this.forRazaoSocial = forRazaoSocial;
     }
 
-    public List<Endereco> getEnderecos() {
-        return enderecos;
-    }
-
-    public void setEnderecos(List<Endereco> enderecos) {
-        this.enderecos = enderecos;
-    }
-
-    public List<Contato> getContatos() {
-        return contatos;
-    }
-
-    public void setContatos(List<Contato> contatos) {
-        this.contatos = contatos;
-    }
 }
