@@ -1,4 +1,4 @@
-package org.example.services.exeptions;
+package org.example.resources.exeptions;
 
 /* Quando tentamos buscar por um codigo que não existe usuario pelo metedo finbyid em
  * usuarioService, será gerado um erro. E nesse camada de serviço vamos buscar esse erro

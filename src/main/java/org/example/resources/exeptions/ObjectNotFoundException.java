@@ -1,4 +1,4 @@
-package org.example.services.exeptions;
+package org.example.resources.exeptions;
 
 public class ObjectNotFoundException extends RuntimeException{
     private static final long serialVersionUID = 1L;
