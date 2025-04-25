@@ -1,4 +1,4 @@
-package org.example.services.exeptions;
+package org.example.resources.exeptions;
 
 public class ValueBigForAtributeException extends RuntimeException{
 

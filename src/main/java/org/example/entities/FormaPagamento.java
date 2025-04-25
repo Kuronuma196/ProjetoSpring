@@ -12,7 +12,7 @@ public class FormaPagamento  implements Serializable {
     private Long fpgId;
 
     @Column(name = "FPG_DESCRICAO")
-    private String fpgDescricao;
+    private static String fpgDescricao;
 
     public FormaPagamento() {
     }
@@ -30,7 +30,7 @@ public class FormaPagamento  implements Serializable {
         this.fpgId = fpgId;
     }
 
-    public String getFpgDescricao() {
+    public static String getFpgDescricao() {
         return fpgDescricao;
     }
 
