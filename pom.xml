@@ -39,6 +39,21 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+        <!-- Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version> <!-- Use a versão mais recente compatível -->
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- Driver do banco (exemplo: H2) -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
 </project>
