@@ -5,6 +5,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 @Entity
@@ -16,37 +18,58 @@ public class Produto implements Serializable {
     @Column(name = "PRO_ID")
     private Long proId;
 
-    @Column(name = "PRO_NOME")
+
+    @NotBlank(message = "Nome é obrigatório!")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres!")
+    @Column(name = "PRO_NOME", nullable = false, length = 100)
     private String proNome;
 
-    @Column(name = "PRO_PRECO_CUSTO", precision = 10, scale = 2)
+    @NotBlank(message = "Preço de custo é obrigatório!")
+    @Column(name = "PRO_PRECO_CUSTO", precision = 10, scale = 2, nullable = false)
     private BigDecimal proPrecoCusto;
 
-    @Column(name = "PRO_PRECO_VENDA", precision = 10, scale = 2)
+
+    @NotBlank(message = "Preço de venda é obrigatório!")
+    @Column(name = "PRO_PRECO_VENDA", precision = 10, scale = 2, nullable = false)
     private BigDecimal proPrecoVenda;
 
+
+    @NotBlank(message = "Quantidade de estoque é obrigatório!")
     @Column(name = "quantidade_estoque", nullable = false)
     private Integer quantidadeEstoque; // Ex: 120
 
-    @Column(length = 100, nullable = false)
+    @NotBlank(message = "Categoria é obrigatório!")
+    @Size(max = 100, message = "Categoria deve ter no máximo 100 caracteres!")
+    @Column(name = "categoria", nullable = false,length = 100)
     private String categoria; // Ex: "Bebidas"
 
-    @Column(name = "codigo_barras", unique = true, nullable = false, length = 20)
+    @NotBlank(message = "Código_barras é obrigatório!")
+    @Size(max = 20, message = "Código_barras deve ter no máximo 20 caracteres!")
+    @Column(name = "codigo_barras", nullable = false, unique = true, length = 20)
     private String codigoBarras; // Ex: "7894900011517"
 
-    @Column(length = 50, nullable = false)
+    @NotBlank(message = "Marca é obrigatório!")
+    @Size(max = 50, message = "Marca deve ter no máximo 50 caracteres!")
+    @Column(name = "marca", nullable = false, length = 50)
     private String marca; // Ex: "Coca-Cola"
 
+    @NotBlank(message = "Unidade de medida é obrigatório!")
+    @Size(max = 20, message = "Unidade de medida deve ter no máximo 20 caracteres!")
     @Column(name = "unidade_medida", length = 20)
     private String unidadeMedida; // Ex: "Litro"
 
-    @Column(length = 5)
-    private String ativo; // Ex: true — OBS: use `Boolean` se quiser armazenar como booleano
+    @NotBlank(message = "Estar Ativo é obrigatório!")
+    @Size(max = 5, message = "Nome deve ter no máximo 5 caracteres!")
+    @Column(name = "PRO_ATIVO", nullable = false, unique = true, length = 5)
+    private String ativo; // Ex: "true" (ideal seria Boolean, veja observação abaixo)
 
-    @Column(name = "data_cadastro", updatable = false)
+    @NotBlank(message = "Data de Cadastro é obrigatório!")
+    @Column(name = "data_cadastro", nullable = false, unique = true, updatable = false)
     private LocalDateTime dataCadastro;
 
-    @Column(name = "data_atualizacao")
+    @NotBlank(message = "Data de atualização é obrigatório!")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres!")
+    @Column(name = "data_atualizacao", nullable = false, unique = true, length = 100)
     private LocalDateTime dataAtualizacao;
 
     @PrePersist
