@@ -1,6 +1,8 @@
 package org.example.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -12,24 +14,38 @@ public class FormaPagamento  implements Serializable {
     @Column(name = "FPG_ID")
     private Long fpgId;
 
-    @Column(name = "FPG_DESCRICAO")
+    @NotBlank(message = "Descrição é obrigatório!")
+    @Size(max = 100, message = "Descrição deve ter no máximo 100 caracteres!")
+    @Column(name = "FPG_DESCRICAO", nullable = false, length = 100)
     private static String fpgDescricao;
 
-    @Column(name = "FPG_NOME")
+    @NotBlank(message = "Nome é obrigatório!")
+    @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres!")
+    @Column(name = "FPG_NOME", nullable = false, length = 100)
     private static String fpgNome;
-    @Column(name = "FPG_PRICE")
+
+    @NotBlank(message = "Preço é obrigatório!")
+    @Column(name = "FPG_PRICE", nullable = false)
     private static String fpgPrice;
 
-    @Column(length = 5)
+    @NotBlank(message = "Estar Ativo é obrigatório!")
+    @Size(max = 5, message = "Nome deve ter no máximo 5 caracteres!")
+    @Column(name = "FPG_ATIVO", nullable = false, unique = true, length = 5)
     private String ativo; // Ex: "true" (ideal seria Boolean, veja observação abaixo)
 
-    @Column(nullable = false)
+    @NotBlank(message = "Permitir parcelamento é obrigatório!")
+    @Size(max = 3, message = "Nome deve ter no máximo 3 caracteres!")
+    @Column(name = "FPG_PermitirParcelamento", nullable = false, length = 3)
     private Boolean permiteParcelamento; // Ex: true
 
-    @Column(name = "numero_maximo_parcelas")
+
+    @NotBlank(message = "Número de parcelas é obrigatório!")
+    @Column(name = "numero_maximo_parcelas", nullable = false)
     private Integer numeroMaximoParcelas; // Ex: 12
 
-    @Column(name = "taxa_adicional", precision = 5, scale = 2)
+
+    @NotBlank(message = "Taxa Adicional é obrigatório!")
+    @Column(name = "taxa_adicional", precision = 5, scale = 2, nullable = false)
     private BigDecimal taxaAdicional; // Ex: new BigDecimal("1.99") = 1,99%
     public FormaPagamento() {
     }
