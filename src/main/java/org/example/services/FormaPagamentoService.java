@@ -32,9 +32,9 @@ public class FormaPagamentoService {
         Optional<FormaPagamento> optionalFormaPagamento = repository.findById(id);
         if (optionalFormaPagamento.isPresent()) {
             FormaPagamento formaPagamentoSistema = optionalFormaPagamento.get();
-            formaPagamentoSistema.setFpgDescricao(FormaPagamento.getFpgDescricao());
-            formaPagamentoSistema.setFpgNome(FormaPagamento.getFpgNome());
-            formaPagamentoSistema.setFpgPrice(FormaPagamento.getFpgPrice());
+            formaPagamentoSistema.setFpgNome(formaPagamento.getFpgNome());
+            formaPagamentoSistema.setFpgNome(formaPagamento.getFpgNome());
+            formaPagamentoSistema.setFpgPrice(formaPagamento.getFpgPrice());
             formaPagamentoSistema.setAtivo(formaPagamento.getAtivo());
             formaPagamentoSistema.setPermiteParcelamento(formaPagamento.getPermiteParcelamento());
             formaPagamentoSistema.setNumeroMaximoParcelas(formaPagamento.getNumeroMaximoParcelas());
