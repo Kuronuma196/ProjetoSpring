@@ -1,4 +1,4 @@
-package org.example.test;
+package org.example.test.java;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
