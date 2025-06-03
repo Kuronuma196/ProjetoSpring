@@ -1,3 +1,10 @@
+package org.example.test.java;
+
+import org.example.test.java.BaseTest;
+import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 public class ProductDeleteTest extends BaseTest {
 
     @Test
