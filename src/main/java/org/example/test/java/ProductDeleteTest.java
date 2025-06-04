@@ -9,8 +9,8 @@ public class ProductDeleteTest extends BaseTest {
 
     @Test
     public void testDeleteProductSuccessfully() {
-        driver.findElement(By.cssSelector(".btn-delete")).click();
-        driver.findElement(By.id("btn-confirmar-exclusao")).click();
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-crud/app-product-read/div/table/tbody/tr/td[13]/a[2]/i")).click();
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-delete/mat-card/button[1]")).click();
 
         // Verifica se o produto sumiu
         boolean produtoExcluido = driver.findElements(By.xpath("//*[contains(text(), 'Produto Teste')]")).isEmpty();
@@ -20,7 +20,7 @@ public class ProductDeleteTest extends BaseTest {
     @Test
     public void testDeleteWithoutSelectingAnything() {
         // Dependendo da interface, pode haver verificação se não há item selecionado
-        driver.findElement(By.cssSelector(".btn-delete")).click();
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-crud/app-product-read/div/table/tbody/tr/td[2]")).click();
 
         WebElement errorMsg = driver.findElement(By.className("error-msg"));
         assert(errorMsg.isDisplayed());

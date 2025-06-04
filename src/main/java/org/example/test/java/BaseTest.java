@@ -13,7 +13,7 @@ public class BaseTest {
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("http://localhost:4200/");
+        driver.get("http://localhost:4200/products");
     }
 
     @AfterEach
