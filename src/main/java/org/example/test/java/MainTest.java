@@ -14,7 +14,7 @@ public class MainTest {
 
         try {
             // Abre o sistema
-            driver.get("http://localhost:4200/");
+            driver.get("http://localhost:4200/products");
             driver.manage().window().maximize();
 
             // Aguarda carregamento (melhor usar WebDriverWait no futuro)
@@ -27,7 +27,7 @@ public class MainTest {
             Thread.sleep(1000);
 
             // Preenche os campos do formulário
-            driver.findElement(By.id("proId")).sendKeys("123");
+            /* */driver.findElement(By.id("proId")).sendKeys("123");
             driver.findElement(By.id("proNome")).sendKeys("Produto Teste");
             driver.findElement(By.id("proPrecoCusto")).sendKeys("5.50");
             driver.findElement(By.id("proPrecoVenda")).sendKeys("8.90");
@@ -47,6 +47,18 @@ public class MainTest {
             btnSalvar.click();
 
             System.out.println(" Produto criado com sucesso!");
+
+            ProductCreateTest productCreateTest = new ProductCreateTest();
+            productCreateTest.testCreateProductSuccessfully();
+            productCreateTest.testCreateProductWithEmptyFields();
+
+            ProductEditTest productEditTest = new ProductEditTest();
+            productEditTest.testEditProductSuccessfully();
+            productEditTest.testEditProductWithEmptyFields();
+
+            ProductDeleteTest productDeleteTest = new ProductDeleteTest();
+            productDeleteTest.testDeleteProductSuccessfully();
+            productDeleteTest.testDeleteWithoutSelectingAnything();
 
         } catch (Exception e) {
             System.out.println(" Erro no teste: " + e.getMessage());
