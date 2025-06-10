@@ -2,7 +2,8 @@
 <component LANGUAGE_LEVEL="JDK_11" inheritJdk="true">
 	<output-test url="file://$MODULE_DIR$/target/test-classes"/>
 	<contentEntry url="file://$MODULE_DIR$">
-		<testFolder url="file://$MODULE_DIR$/src/main/test"/>
+		<testFolder url="file://$MODULE_DIR$/src/test/java"/>
+		<testFolder url="file://$MODULE_DIR$/src/test/resources"/>
 		<excludeFolder url="file://$MODULE_DIR$/target"/>
 	</contentEntry>
 	<lib name="Maven: org.junit.jupiter:junit-jupiter:5.10.0" scope="TEST"/>
