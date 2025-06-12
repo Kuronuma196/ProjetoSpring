@@ -53,6 +53,22 @@ public class Cliente implements Serializable {
         this.cliId = cliId;
     }
 
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public List<Contato> getConetatos() {
+        return conetatos;
+    }
+
+    public void setConetatos(List<Contato> conetatos) {
+        this.conetatos = conetatos;
+    }
+
     public String getCliNome() {
         return cliNome;
     }
@@ -68,6 +84,4 @@ public class Cliente implements Serializable {
     public void setCliCpf(String cliCpf) {
         this.cliCpf = cliCpf;
     }
-
-
 }

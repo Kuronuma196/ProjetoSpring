@@ -4,8 +4,7 @@ public class ClienteDTO {
     private Long cliId;
     private String cliNome;
     private String cliCpf;
-    private String cliEmail;
-    private String cliTelefone;
+
 
     private String endRua;
     private String endNumero;
@@ -20,21 +19,6 @@ public class ClienteDTO {
     public ClienteDTO() {
     }
 
-    public ClienteDTO(Long cliId, String cliNome, String cliCpf, String cliEmail, String cliTelefone, String endRua, String endNumero, String endCidade, String endCep, String endEstado, String conCelular, String conTelefoneComercial, String conEmail) {
-        this.cliId = cliId;
-        this.cliNome = cliNome;
-        this.cliCpf = cliCpf;
-        this.cliEmail = cliEmail;
-        this.cliTelefone = cliTelefone;
-        this.endRua = endRua;
-        this.endNumero = endNumero;
-        this.endCidade = endCidade;
-        this.endCep = endCep;
-        this.endEstado = endEstado;
-        this.conCelular = conCelular;
-        this.conTelefoneComercial = conTelefoneComercial;
-        this.conEmail = conEmail;
-    }
 
     public Long getCliId() {
         return cliId;
@@ -60,21 +44,7 @@ public class ClienteDTO {
         this.cliCpf = cliCpf;
     }
 
-    public String getCliEmail() {
-        return cliEmail;
-    }
 
-    public void setCliEmail(String cliEmail) {
-        this.cliEmail = cliEmail;
-    }
-
-    public String getCliTelefone() {
-        return cliTelefone;
-    }
-
-    public void setCliTelefone(String cliTelefone) {
-        this.cliTelefone = cliTelefone;
-    }
 
     public String getEndRua() {
         return endRua;
