@@ -66,7 +66,7 @@ public Cliente insert(Cliente obj){
         }
     }
 
-    public void deleteCliente(Long id) {
+    public void delete(Long id) {
         try {
             repository.deleteById(id);
         } catch (EmptyResultDataAccessException e) {
@@ -115,5 +115,9 @@ public Cliente insert(Cliente obj){
         return dto;
     }
 
+
+    public boolean update(Long id, Cliente cliente) {
+        return false;
+    }
 
 }

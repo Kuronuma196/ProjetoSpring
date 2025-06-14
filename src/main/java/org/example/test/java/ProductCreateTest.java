@@ -9,19 +9,19 @@ public class ProductCreateTest extends BaseTest {
 
     @Test
     public void testCreateProductSuccessfully() {
-        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-crud/button")).click(); // botão Novo Produto
+        WebElement btnNovoProduto = driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-crud/button"));
+        btnNovoProduto.click();
 
-        driver.findElement(By.id("proNome")).sendKeys("Produto Teste");
-        driver.findElement(By.id("proPrecoCusto")).sendKeys("99.99");
-        driver.findElement(By.id("proPrecoVenda")).sendKeys("99.99");
-        driver.findElement(By.id("quantidadeEstoque")).sendKeys("100");
-        driver.findElement(By.id("categoria")).sendKeys("Testes");
-        driver.findElement(By.id("codigoBarras")).sendKeys("9876543210123");
-        driver.findElement(By.id("marca")).sendKeys("Marca Teste");
-        driver.findElement(By.id("unidadeMedida")).sendKeys("Unidade");
-        driver.findElement(By.id("ativo")).click(); // Se for checkbox
-        driver.findElement(By.id("dataCadastro")).sendKeys("2025-05-31");
-        driver.findElement(By.id("dataAtualizacao")).sendKeys("2025-05-31");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[1]/div[1]/div[2]/div/input")).sendKeys("Produto Teste");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[2]/div[1]/div[2]/div/input")).sendKeys("5.50");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[3]/div[1]/div[2]/div/input")).sendKeys("8.90");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[4]/div[1]/div[2]/div/input")).sendKeys("100");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[5]/div[1]/div[2]/div/input")).sendKeys("Testes");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[6]/div[1]/div[2]/div/input")).sendKeys("9876543210123");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[7]/div[1]/div[2]/div/input")).sendKeys("Marca Teste");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[8]/div[1]/div[2]/div/input")).sendKeys("Unidade");
+        driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[9]/div[1]/div[2]/div/input")).sendKeys("ativo"); // Se for checkbox
+
 
         driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/button[1]")).click(); // botão Salvar
 
