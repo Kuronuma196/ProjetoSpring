@@ -19,8 +19,8 @@ public class ClienteResource {
     private ClienteService clienteService;
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> getAll() {
-        List<Cliente> funcoes = clienteService.getAll();
+    public ResponseEntity<List<Cliente>> findAll() {
+        List<Cliente> funcoes = clienteService.findAll();
         return ResponseEntity.ok(funcoes);
     }
 

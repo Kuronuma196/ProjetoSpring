@@ -10,7 +10,8 @@ public class ProductEditTest extends BaseTest {
     public void testEditProductSuccessfully() {
         driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-crud/app-product-read/div/table/tbody/tr/td[11]/a[1]/i")).click();
 
-        WebElement nome = driver.findElement(By.id("proNome"));
+        WebElement nome = driver.findElement(By.xpath("/html/body/app-root/app-nav/mat-sidenav-container/mat-sidenav-content/app-product-create/mat-card/form/mat-form-field[1]/div[1]/div[2]/div/input"));
+
         nome.clear();
         nome.sendKeys("Produto Editado");
 

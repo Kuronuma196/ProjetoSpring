@@ -21,7 +21,7 @@ public class Cliente implements Serializable {
     @OneToMany(mappedBy = "endCliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "econCliente", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "conCliente", cascade = CascadeType.ALL)
     private List<Contato> conetatos = new ArrayList<>();
 
     @NotBlank(message = "Nome é obrigatório!")
