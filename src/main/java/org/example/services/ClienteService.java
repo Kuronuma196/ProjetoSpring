@@ -75,19 +75,19 @@ public Cliente insert(Cliente obj){
     }
 
     public Cliente fromDTO(ClienteDTO objDto) {
-        Cliente fornec = new Cliente(null, objDto.getCliNome(), objDto.getCliCpf());
+        Cliente cliente = new Cliente(null, objDto.getCliNome(), objDto.getCliCpf());
 
-        Endereco ender = new Endereco(null, fornec, objDto.getEndRua(), objDto.getEndNumero(),
+        Endereco ender = new Endereco(null, cliente, objDto.getEndRua(), objDto.getEndNumero(),
                 objDto.getEndCidade(), objDto.getEndCep(),
                 objDto.getEndEstado());
 
-        Contato contato = new Contato(null, fornec, objDto.getConCelular(), objDto.getConTelefoneComercial(),
+        Contato contato = new Contato(null, cliente, objDto.getConCelular(), objDto.getConTelefoneComercial(),
                 objDto.getConEmail());
 
-        fornec.getEnderecos().add(ender);
-        fornec.getConetatos().add(contato);
+        cliente.getEnderecos().add(ender);
+        cliente.getConetatos().add(contato);
 
-        return fornec;
+        return cliente;
     }
 
     public ClienteDTO toNewDTO(Cliente obj) {

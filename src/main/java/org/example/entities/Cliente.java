@@ -39,7 +39,7 @@ public class Cliente implements Serializable {
     public Cliente() {
     }
 
-    public Cliente(Long cliId, String cliNome, String cliCpf) {
+    public Cliente(Long cliId,String cliNome, String cliCpf) {
         this.cliId = cliId;
         this.cliNome = cliNome;
         this.cliCpf = cliCpf;

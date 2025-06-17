@@ -17,6 +17,12 @@ public class Fornecedor implements Serializable {
     @Column(name = "FOR_ID")
     private Long forId;
 
+    @OneToMany(mappedBy = "endFornecedor", cascade = CascadeType.ALL)
+    private List<Endereco> enderecos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "conFornecedor", cascade = CascadeType.ALL)
+    private List<Contato> conetatos = new ArrayList<>();
+
     @NotBlank(message = "Nome é obrigatório!")
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres!")
     @Column(name = "FOR_NOME_FANTASIA", nullable = false, length = 100)
@@ -32,11 +38,13 @@ public class Fornecedor implements Serializable {
     @Column(name = "FOR_RAZAO_SOCIAL", nullable = false, unique = true, length = 100)
     private String forRazaoSocial;
 
-    public Fornecedor() {
+    public Fornecedor(Object o, String forCnpj, String forNomeFantasia, String forRazaoSocial) {
     }
 
-    public Fornecedor(Long forId, String forNome, String forNomeFantasia, String forCnpj, String forRazaoSocial) {
+    public Fornecedor(Long forId, List<Endereco> enderecos, List<Contato> conetatos, String forNomeFantasia, String forCnpj, String forRazaoSocial) {
         this.forId = forId;
+        this.enderecos = enderecos;
+        this.conetatos = conetatos;
         this.forNomeFantasia = forNomeFantasia;
         this.forCnpj = forCnpj;
         this.forRazaoSocial = forRazaoSocial;
@@ -48,6 +56,22 @@ public class Fornecedor implements Serializable {
 
     public void setForId(Long forId) {
         this.forId = forId;
+    }
+
+    public List<Endereco> getEnderecos() {
+        return enderecos;
+    }
+
+    public void setEnderecos(List<Endereco> enderecos) {
+        this.enderecos = enderecos;
+    }
+
+    public List<Contato> getConetatos() {
+        return conetatos;
+    }
+
+    public void setConetatos(List<Contato> conetatos) {
+        this.conetatos = conetatos;
     }
 
     public String getForNomeFantasia() {
@@ -73,5 +97,4 @@ public class Fornecedor implements Serializable {
     public void setForRazaoSocial(String forRazaoSocial) {
         this.forRazaoSocial = forRazaoSocial;
     }
-
 }
