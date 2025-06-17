@@ -61,7 +61,7 @@ public class Produto implements Serializable {
     @NotBlank(message = "Estar Ativo é obrigatório!")
     @Size(max = 5, message = "Nome deve ter no máximo 5 caracteres!")
     @Column(name = "PRO_ATIVO", nullable = false, unique = true, length = 5)
-    private String ativo; // Ex: "true" (ideal seria Boolean, veja observação abaixo)
+    private Boolean ativo; // Ex: "true" (ideal seria Boolean, veja observação abaixo)
 
     @NotBlank(message = "Data de Cadastro é obrigatório!")
     @Column(name = "data_cadastro", nullable = false, unique = true, updatable = false)
@@ -86,7 +86,7 @@ public class Produto implements Serializable {
     public Produto() {
     }
 
-    public Produto(Long proId, String proNome, BigDecimal proPrecoCusto, BigDecimal proPrecoVenda, Integer quantidadeEstoque, String categoria, String codigoBarras, String marca, String unidadeMedida, String ativo, LocalDateTime dataCadastro, LocalDateTime dataAtualizacao) {
+    public Produto(Long proId, String proNome, BigDecimal proPrecoCusto, BigDecimal proPrecoVenda, Integer quantidadeEstoque, String categoria, String codigoBarras, String marca, String unidadeMedida, Boolean ativo, LocalDateTime dataCadastro, LocalDateTime dataAtualizacao) {
         this.proId = proId;
         this.proNome = proNome;
         this.proPrecoCusto = proPrecoCusto;
@@ -173,11 +173,11 @@ public class Produto implements Serializable {
         this.unidadeMedida = unidadeMedida;
     }
 
-    public String getAtivo() {
+    public Boolean getAtivo() {
         return ativo;
     }
 
-    public void setAtivo(String ativo) {
+    public void setAtivo(Boolean ativo) {
         this.ativo = ativo;
     }
 

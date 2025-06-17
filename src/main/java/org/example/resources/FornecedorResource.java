@@ -1,4 +1,7 @@
 package org.example.resources;
+import dto.ClienteDTO;
+import dto.FornecedorDTO;
+import org.example.entities.Cliente;
 import org.example.entities.Fornecedor;
 import org.example.entities.Produto;
 import org.example.services.FornecedorService;
@@ -9,8 +12,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
@@ -21,37 +28,37 @@ public class FornecedorResource {
     private FornecedorService fornecedorService;
 
     @GetMapping
-    public ResponseEntity<List<Fornecedor>> getAll() {
-        List<Fornecedor> funcoes = fornecedorService.getAll();
-        return ResponseEntity.ok(funcoes);
+    public ResponseEntity<List<FornecedorDTO>> findAll(){
+        List<Fornecedor> list = fornecedorService.findAll();
+        List<FornecedorDTO> listDto = list.stream().map(obj -> fornecedorService.toNewDTO(obj)).collect(Collectors.toList());
+        return  ResponseEntity.ok().body(listDto);
     }
 
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Fornecedor> findById(@PathVariable Long id) {
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<FornecedorDTO> findById(@PathVariable Long id){
         Fornecedor obj = fornecedorService.findById(id);
-        return ResponseEntity.ok().body(obj);
+        FornecedorDTO dto = fornecedorService.toNewDTO(obj);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
-    public ResponseEntity<Fornecedor> insert(@RequestBody Fornecedor fornecedor) {
-        Fornecedor createdFornecedor = fornecedorService.insert(fornecedor);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdFornecedor);
+    public ResponseEntity<Void> insert(@Valid @RequestBody FornecedorDTO dto){
+        Fornecedor obj = fornecedorService.fromDTO(dto);
+        obj = fornecedorService.insert(obj);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getForId()).toUri();
+        return ResponseEntity.created(uri).build();
     }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Fornecedor fornecedor) {
-        if (fornecedorService.update(id, fornecedor)) {
-            return ResponseEntity.ok().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<Void> update(@Valid @RequestBody FornecedorDTO objDto, @PathVariable Long id){
+        fornecedorService.update(id, objDto);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteFornecedor(@PathVariable Long id){
         fornecedorService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
 
 }
