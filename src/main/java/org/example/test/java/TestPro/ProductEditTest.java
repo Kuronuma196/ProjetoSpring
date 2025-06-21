@@ -1,6 +1,7 @@
-package org.example.test.java;
+package org.example.test.java.TestPro;
 
 
+import org.example.test.java.TestPro.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 

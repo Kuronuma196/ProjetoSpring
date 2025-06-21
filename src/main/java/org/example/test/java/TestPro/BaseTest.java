@@ -1,4 +1,4 @@
-package org.example.test.java;
+package org.example.test.java.TestPro;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 
@@ -12,7 +12,7 @@ public class BaseTest {
     public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
-        driver.get("http://localhost:4200/products");
+        driver.get("http://localhost:4200");
     }
     public void tearDown() {
         driver.quit();
