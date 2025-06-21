@@ -48,7 +48,7 @@ public class FornecedorResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getForId()).toUri();
         return ResponseEntity.created(uri).build();
     }
-    @GetMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody FornecedorDTO objDto, @PathVariable Long id){
         fornecedorService.update(id, objDto);
         return ResponseEntity.noContent().build();

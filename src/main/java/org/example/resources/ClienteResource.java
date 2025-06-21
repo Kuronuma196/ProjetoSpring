@@ -44,7 +44,7 @@ public class ClienteResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getCliId()).toUri();
         return ResponseEntity.created(uri).build();
     }
-    @GetMapping(value = "/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Void> update(@Valid @RequestBody ClienteDTO objDto, @PathVariable Long id){
         clienteService.update(id, objDto);
         return ResponseEntity.noContent().build();
