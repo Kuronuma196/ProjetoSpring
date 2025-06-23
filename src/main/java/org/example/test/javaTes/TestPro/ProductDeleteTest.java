@@ -1,7 +1,6 @@
-package org.example.test.java.TestPro;
+package org.example.test.javaTes.TestPro;
 
 //import org.junit.jupiter.api.Test;
-import org.example.test.java.TestPro.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
