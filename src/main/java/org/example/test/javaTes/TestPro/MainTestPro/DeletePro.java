@@ -1,8 +1,7 @@
-package org.example.test.java.TestPro.MainTestPro;
+package org.example.test.javaTes.TestPro.MainTestPro;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.example.test.java.TestPro.ProductDeleteTest;
-import org.example.test.java.TestPro.ProductEditTest;
+import org.example.test.javaTes.TestPro.ProductDeleteTest;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -11,7 +10,7 @@ public class DeletePro {
     WebDriverManager.chromedriver().setup();
     WebDriver driver = new ChromeDriver();
     try {
-        driver.get("http://localhost:4200/products");
+        driver.get("http://localhost:4200/products/delete/1");
         driver.manage().window().maximize();
 
         // Aguarda carregamento (melhor usar WebDriverWait no futuro)
