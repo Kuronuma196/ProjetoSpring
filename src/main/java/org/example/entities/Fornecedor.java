@@ -38,13 +38,11 @@ public class Fornecedor implements Serializable {
     @Column(name = "FOR_RAZAO_SOCIAL", nullable = false, unique = true, length = 100)
     private String forRazaoSocial;
 
-    public Fornecedor(Object o, String forCnpj, String forNomeFantasia, String forRazaoSocial) {
+    public Fornecedor( String forCnpj, String forNomeFantasia, String forRazaoSocial) {
     }
 
-    public Fornecedor(Long forId, List<Endereco> enderecos, List<Contato> conetatos, String forNomeFantasia, String forCnpj, String forRazaoSocial) {
+    public Fornecedor(Long forId, String forNomeFantasia, String forCnpj, String forRazaoSocial) {
         this.forId = forId;
-        this.enderecos = enderecos;
-        this.conetatos = conetatos;
         this.forNomeFantasia = forNomeFantasia;
         this.forCnpj = forCnpj;
         this.forRazaoSocial = forRazaoSocial;

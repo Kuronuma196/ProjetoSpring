@@ -32,6 +32,7 @@ public class ProdutoService {
         Optional<Produto> optionalProduto = repository.findById(id);
         if (optionalProduto.isPresent()) {
             Produto produtoSistema = optionalProduto.get();
+            produtoSistema.setProFornecedor(produto.getProFornecedor());
             produtoSistema.setProNome(produto.getProNome());
             produtoSistema.setProPrecoCusto(produto.getProPrecoCusto());
             produtoSistema.setProPrecoVenda(produto.getProPrecoVenda());
