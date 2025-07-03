@@ -1,34 +1,45 @@
 package org.example.ChatPesquisa;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import dto.PerguntaDTO;
 import org.example.entities.PesquisaResponse;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/pesquisa")
+@CrossOrigin(origins = "http://localhost:4200") // <–– adiciona esta linha
 public class pesquisa {
-    private final RestTemplate restTemplate = new RestTemplate();
-
     @PostMapping
-    public ResponseEntity<?> pesquisar(@RequestBody PerguntaDTO dto) {
-        if (dto.getPergunta() == null || dto.getPergunta().isBlank())
-            return ResponseEntity.badRequest().body("Pergunta não fornecida");
+    public PesquisaResponse pesquisar(@RequestBody PerguntaDTO perguntaDTO) {
+        String pergunta = perguntaDTO.getPergunta();
 
-        String query = dto.getPergunta().replaceAll(" ", "+");
-        String url = "https://api.duckduckgo.com/?q=" + query + "&format=json&no_redirect=1";
+        String url = "https://api.duckduckgo.com/?q=" + pergunta + "&format=json&no_redirect=1&no_html=1";
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> resposta = restTemplate.getForEntity(url, String.class);
+
+        PesquisaResponse response = new PesquisaResponse();
 
         try {
-            PesquisaResponse resp = restTemplate.getForObject(url, PesquisaResponse.class);
-            String resposta = resp.getAbstractText() != null && !resp.getAbstractText().isEmpty()
-                    ? resp.getAbstractText()
-                    : (resp.getAnswer() != null ? resp.getAnswer() : "Sem resposta clara.");
+            ObjectMapper mapper = new ObjectMapper();
+            JsonNode json = mapper.readTree(resposta.getBody());
 
-            return ResponseEntity.ok(Map.of("resposta", resposta));
+            String abstractText = json.path("Abstract").asText();
+            String answer = json.path("Answer").asText();
+
+            if (abstractText.isEmpty() && answer.isEmpty()) {
+                answer = "Nenhuma resposta encontrada na web.";
+            }
+
+            response.setAbstractText(abstractText);
+            response.setAnswer(answer);
+
         } catch (Exception e) {
-            return ResponseEntity.status(500).body("Erro ao buscar dados externos.");
+            response.setAnswer("Erro ao processar resposta: " + e.getMessage());
         }
+
+        return response;
     }
 }
