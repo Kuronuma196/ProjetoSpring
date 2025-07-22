@@ -6,8 +6,21 @@ public class PesquisaResponse {
     @JsonProperty("Abstract")
     private String abstractText;
     private String Answer;
-    // getters e setters
 
+
+        private String answer;
+
+        // Construtor padrão
+        public PesquisaResponse() {}
+
+        // Construtor com argumentos
+        public PesquisaResponse(String answer, String abstractText) {
+            this.answer = answer;
+            this.abstractText = abstractText;
+        }
+
+        // getters e setters
+        // ...
 
     public String getAbstractText() {
         return abstractText;
@@ -25,3 +38,5 @@ public class PesquisaResponse {
         Answer = answer;
     }
 }
+
+
