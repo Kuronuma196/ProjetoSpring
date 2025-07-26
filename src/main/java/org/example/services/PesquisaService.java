@@ -26,17 +26,22 @@ public class PesquisaService {
 
             String bodyJson = String.format(
                     "{\n" +
-                            "  \"model\": \"command-r\",\n" +
-                            "  \"prompt\": \"%s\",\n" +
-                            "  \"max_tokens\": 300,\n" +
-                            "  \"temperature\": 0.7\n" +
+                            "  \"model\": \"command\",\n" +
+                            "  \"prompt\": \"Você é Ângela, uma assistente inteligente do sistema Panema SENAI. Responda APENAS em português, de forma clara e útil para funcionários e donos de microempresas de padaria. Pergunta: %s\",\n" +
+                            "  \"temperature\": 0.7,\n" +
+                            "  \"max_tokens\": 500,\n" +
+                            "  \"stop_sequences\": [\"--\"]\n" +
                             "}", pergunta.replace("\"", "\\\"")
             );
+
+
 
             HttpEntity<String> entity = new HttpEntity<>(bodyJson, headers);
 
             ResponseEntity<String> response = restTemplate.postForEntity(
-                    "https://api.cohere.ai/v1/generate", entity, String.class
+                    "https://api.cohere.ai/v1/generate",
+                    entity,
+                    String.class
             );
 
             if (response.getStatusCode().is2xxSuccessful()) {
@@ -44,7 +49,7 @@ public class PesquisaService {
                 String resposta = jsonNode.get("generations").get(0).get("text").asText();
                 return Map.of("resposta", resposta.trim());
             } else {
-                return Map.of("resposta", "Erro ao acessar a API da Cohere: " + response.getStatusCode());
+                return Map.of("resposta", "Erro na chamada à API da Cohere: " + response.getStatusCode());
             }
 
         } catch (Exception e) {

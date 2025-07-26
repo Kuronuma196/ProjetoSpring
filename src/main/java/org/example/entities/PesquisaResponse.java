@@ -3,24 +3,27 @@ package org.example.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class PesquisaResponse {
-    @JsonProperty("Abstract")
+
+    @JsonProperty("resposta")
+    private String resposta;
+
+    @JsonProperty("abstract")
     private String abstractText;
-    private String Answer;
 
+    public PesquisaResponse() {}
 
-        private String answer;
+    public PesquisaResponse(String resposta, String abstractText) {
+        this.resposta = resposta;
+        this.abstractText = abstractText;
+    }
 
-        // Construtor padrão
-        public PesquisaResponse() {}
+    public String getResposta() {
+        return resposta;
+    }
 
-        // Construtor com argumentos
-        public PesquisaResponse(String answer, String abstractText) {
-            this.answer = answer;
-            this.abstractText = abstractText;
-        }
-
-        // getters e setters
-        // ...
+    public void setResposta(String resposta) {
+        this.resposta = resposta;
+    }
 
     public String getAbstractText() {
         return abstractText;
@@ -29,14 +32,4 @@ public class PesquisaResponse {
     public void setAbstractText(String abstractText) {
         this.abstractText = abstractText;
     }
-
-    public String getAnswer() {
-        return Answer;
-    }
-
-    public void setAnswer(String answer) {
-        Answer = answer;
-    }
 }
-
-
