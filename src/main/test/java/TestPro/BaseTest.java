@@ -1,4 +1,4 @@
-package org.example.test.javaTes.TestPro;
+package TestPro;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 

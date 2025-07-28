@@ -1,4 +1,4 @@
-package org.example.test.javaTes.TestPro;
+package TestPro;
 
 //import org.junit.jupiter.api.Test;
 import org.junit.Test;

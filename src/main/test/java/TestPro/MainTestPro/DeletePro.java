@@ -1,7 +1,8 @@
-package org.example.test.javaTes.TestPro.MainTestPro;
+package TestPro.MainTestPro;
 
+import TestPro.ProductDeleteTest;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.example.test.javaTes.TestPro.ProductDeleteTest;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 

@@ -1,4 +1,4 @@
-package org.example.test.javaTes.TestPro.MainTestPro;
+package TestPro.MainTestPro;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
