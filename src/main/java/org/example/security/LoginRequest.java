@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.security;
 
 public class LoginRequest {
     private String email;

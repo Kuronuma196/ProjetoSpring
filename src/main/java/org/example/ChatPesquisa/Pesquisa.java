@@ -1,7 +1,6 @@
 package org.example.ChatPesquisa;
 
 import dto.PerguntaDTO;
-import org.example.entities.PesquisaResponse;
 import org.example.services.PesquisaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

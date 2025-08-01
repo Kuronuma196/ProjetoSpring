@@ -1,5 +1,7 @@
 package org.example.entities;
 
+import org.example.security.TipoUsuario;
+
 import javax.persistence.*;
 
 @Entity

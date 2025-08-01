@@ -1,5 +1,6 @@
-package org.example.entities;
+package org.example.security;
 
+import org.example.entities.Usuario;
 import org.example.repositories.UsuarioRepository;
 import org.example.services.UsuarioDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;

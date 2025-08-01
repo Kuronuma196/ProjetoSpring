@@ -1,4 +1,4 @@
-package org.example.entities;
+package org.example.ChatPesquisa;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
