@@ -14,7 +14,7 @@ public class Pesquisa {
     @Autowired
     private PesquisaService pesquisaService;
 
-    @PostMapping
+   @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<PesquisaResponse> pesquisar(@RequestBody PerguntaDTO dto) {
         if (dto.getPergunta() == null || dto.getPergunta().isBlank()) {
             return ResponseEntity.badRequest().body(
