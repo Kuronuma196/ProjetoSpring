@@ -1,6 +1,5 @@
 package org.example.ChatPesquisa;
 
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -14,11 +13,11 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")  // permite CORS para todas as rotas
-                        .allowedOrigins("http://localhost:4200")  // permite essa origem específica
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200", "http://localhost:57737")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
-                        .allowedHeaders("*") // permite todos os headers
-                        .allowCredentials(true); // se precisar enviar cookies ou auth
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }

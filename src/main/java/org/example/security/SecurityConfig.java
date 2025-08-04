@@ -34,34 +34,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(usuarioDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .cors()
-                .and()
-                .csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
-                .antMatchers("/api/pesquisa").permitAll()   // liberando essa rota
+            .cors()
+            .and()
+            .csrf().disable()
+            .authorizeRequests()
+                // Rotas públicas
+                .antMatchers("/auth/**", "/http://localhost:4200/**","/api/pesquisa").permitAll()
+                // Todas as outras precisam de autenticação
                 .anyRequest().authenticated()
-                .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .headers().frameOptions().disable(); // útil para H2 console, remover se não for necessário
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
-    // Bean para configurar CORS globalmente
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200")); // front Angular
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:57737"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
-        configuration.setAllowCredentials(true);  // se usar cookies ou autorização
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration); // aplica a todas as rotas
+        source.registerCorsConfiguration("/**", configuration);
 
         return source;
     }
@@ -72,6 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
+    @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }

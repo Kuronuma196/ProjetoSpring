@@ -24,6 +24,12 @@ public class JwtFilter extends OncePerRequestFilter {
     private UsuarioDetailsService userDetailsService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String path = request.getServletPath();
+        return path.equals("/auth/login") || path.equals("/auth/cadastro");
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws ServletException, IOException {
@@ -31,7 +37,6 @@ public class JwtFilter extends OncePerRequestFilter {
             response.setStatus(HttpServletResponse.SC_OK);
             return;
         }
-
 
         final String authHeader = request.getHeader("Authorization");
 
@@ -54,9 +59,6 @@ public class JwtFilter extends OncePerRequestFilter {
             }
         }
 
-
-
         chain.doFilter(request, response);
     }
 }
-
