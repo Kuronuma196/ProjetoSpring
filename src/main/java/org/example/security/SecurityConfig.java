@@ -1,5 +1,6 @@
 package org.example.security;
 
+
 import org.example.services.UsuarioDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -41,21 +42,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .csrf().disable()
             .authorizeRequests()
-                // Rotas públicas
-                .antMatchers("/auth/**", "/http://localhost:4200/**","/api/pesquisa").permitAll()
-                // Todas as outras precisam de autenticação
+                // Rotas públicas - sem autenticação
+                .antMatchers(
+                    "/auth/**",
+                    "/produtos/**",
+                    "/usuarios/**",
+                    "/clientes/**",
+                    "/formaPagamento/**",
+                    "/fornecedores/**",
+                    "/api/pesquisa"
+                ).permitAll()
+                // Demais rotas precisam de autenticação
                 .anyRequest().authenticated()
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .headers().frameOptions().disable(); // útil para H2 console, remover se não for necessário
+            .headers().frameOptions().disable(); // para H2 console, remover se não usar
 
+        // Importante: deixe o filtro JWT ignorar as rotas públicas
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
+        // Permitir localhost para Angular (ajuste conforme necessário)
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:57737"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("*"));

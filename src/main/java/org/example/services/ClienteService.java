@@ -53,7 +53,7 @@ public Cliente insert(Cliente obj){
             endereco.setEndCep(objDto.getEndCep());
             endereco.setEndEstado(objDto.getEndEstado());
 
-            Contato contato = entity.getConetatos().get(0);
+            Contato contato = entity.getContatos().get(0);
 
             contato.setConCelular(objDto.getConCelular());
             contato.setConTelefoneComercial(objDto.getConTelefoneComercial());
@@ -85,7 +85,7 @@ public Cliente insert(Cliente obj){
                 objDto.getConEmail());
 
         cliente.getEnderecos().add(ender);
-        cliente.getConetatos().add(contato);
+        cliente.getContatos().add(contato);
 
         return cliente;
     }
@@ -107,7 +107,7 @@ public Cliente insert(Cliente obj){
         dto.setEndEstado(endereco.getEndEstado());
 
 // Atributos específicos de Contato
-        Contato contato = obj.getConetatos().get(0);
+        Contato contato = obj.getContatos().get(0);
         dto.setConCelular(contato.getConCelular());
         dto.setConTelefoneComercial(contato.getConTelefoneComercial());
         dto.setConEmail(contato.getConEmail());

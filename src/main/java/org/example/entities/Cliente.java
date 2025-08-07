@@ -3,7 +3,6 @@ package org.example.entities;
 import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -16,13 +15,13 @@ public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CLI_ID")
-    private Long cliId;
+    private Long id;
 
     @OneToMany(mappedBy = "endCliente", cascade = CascadeType.ALL)
     private List<Endereco> enderecos = new ArrayList<>();
 
     @OneToMany(mappedBy = "conCliente", cascade = CascadeType.ALL)
-    private List<Contato> conetatos = new ArrayList<>();
+    private List<Contato> contatos = new ArrayList<>();
 
     @NotBlank(message = "Nome é obrigatório!")
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres!")
@@ -31,26 +30,28 @@ public class Cliente implements Serializable {
 
     @NotBlank(message = "CPF é obrigatório!")
     @CPF(message = "CPF inválido")
-    @Column(name = "CLI_CPF",nullable = false, unique = true, length = 11)
+    @Column(name = "CLI_CPF", nullable = false, unique = true, length = 11)
     private String cliCpf;
 
-
+    // Relacionamento com Usuario
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Usuario usuario;
 
     public Cliente() {
     }
 
-    public Cliente(Long cliId,String cliNome, String cliCpf) {
-        this.cliId = cliId;
+    public Cliente(Long cliId, String cliNome, String cliCpf) {
+        this.id = cliId;
         this.cliNome = cliNome;
         this.cliCpf = cliCpf;
     }
 
     public Long getCliId() {
-        return cliId;
+        return id;
     }
 
     public void setCliId(Long cliId) {
-        this.cliId = cliId;
+        this.id = cliId;
     }
 
     public List<Endereco> getEnderecos() {
@@ -61,12 +62,12 @@ public class Cliente implements Serializable {
         this.enderecos = enderecos;
     }
 
-    public List<Contato> getConetatos() {
-        return conetatos;
+    public List<Contato> getContatos() {
+        return contatos;
     }
 
-    public void setConetatos(List<Contato> conetatos) {
-        this.conetatos = conetatos;
+    public void setContatos(List<Contato> conetatos) {
+        this.contatos = conetatos;
     }
 
     public String getCliNome() {
@@ -83,5 +84,13 @@ public class Cliente implements Serializable {
 
     public void setCliCpf(String cliCpf) {
         this.cliCpf = cliCpf;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }

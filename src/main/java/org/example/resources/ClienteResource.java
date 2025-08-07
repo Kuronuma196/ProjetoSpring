@@ -23,12 +23,19 @@ public class ClienteResource {
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping
-    public ResponseEntity<List<ClienteDTO>> findAll(){
+  @GetMapping
+public ResponseEntity<List<ClienteDTO>> findAll(){
+    try {
         List<Cliente> list = clienteService.findAll();
         List<ClienteDTO> listDto = list.stream().map(obj -> clienteService.toNewDTO(obj)).collect(Collectors.toList());
-        return  ResponseEntity.ok().body(listDto);
+        return ResponseEntity.ok().body(listDto);
+    } catch (Exception e) {
+        e.printStackTrace(); // vai aparecer no log do backend
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+}
+
+
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<ClienteDTO> findById(@PathVariable Long id){

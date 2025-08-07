@@ -38,12 +38,25 @@ public class Endereco implements Serializable {
     @Column(name = "END_ESTADO", length = 2)
     private String endEstado;
 
-    public Endereco(Long endId, Fornecedor fornecedor, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
+    // Construtor vazio para JPA
+    public Endereco() {
     }
 
+    // Construtor com cliente
     public Endereco(Long endId, Cliente endCliente, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
         this.endId = endId;
         this.endCliente = endCliente;
+        this.endRua = endRua;
+        this.endNumero = endNumero;
+        this.endCidade = endCidade;
+        this.endCep = endCep;
+        this.endEstado = endEstado;
+    }
+
+    // Construtor com fornecedor
+    public Endereco(Long endId, Fornecedor endFornecedor, String endRua, String endNumero, String endCidade, String endCep, String endEstado) {
+        this.endId = endId;
+        this.endFornecedor = endFornecedor;
         this.endRua = endRua;
         this.endNumero = endNumero;
         this.endCidade = endCidade;

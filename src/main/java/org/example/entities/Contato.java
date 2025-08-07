@@ -1,11 +1,17 @@
 package org.example.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Contato implements Serializable {
 
     @Id
@@ -15,13 +21,16 @@ public class Contato implements Serializable {
 
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "CON_CLI_ID")
+    @JoinColumn(name = "cliente_id") // chave estrangeira no banco
     private Cliente conCliente;
 
     @JsonIgnore
-    @ManyToOne
+     @ToString.Exclude
+    @EqualsAndHashCode.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CON_FOR_ID")
-    private Fornecedor conFornecedor;
+    private Fornecedor fornecedor;
+
 
     @Column(name = "CON_CELULAR", length = 14)
     private String conCelular;
@@ -32,7 +41,13 @@ public class Contato implements Serializable {
     @Column(length = 55, name = "CON_EMAIL")
     private String conEmail;
 
+
     public Contato(Long conId, Fornecedor fornecedor, String conCelular, String conTelefoneComercial, String conEmail) {
+        this.conId = conId;
+        this.fornecedor = fornecedor;
+        this.conCelular = conCelular;
+        this.conTelefoneComercial = conTelefoneComercial;
+        this.conEmail = conEmail;
     }
 
     public Contato(Long conId, Cliente conCliente, String conCelular, String conTelefoneComercial, String conEmail) {
@@ -60,11 +75,15 @@ public class Contato implements Serializable {
     }
 
     public Fornecedor getConFornecedor() {
-        return conFornecedor;
+        return fornecedor;
     }
+    @Transient  // Mark as transient since it's not a real database column
+public Long getFornecedorId() {
+    return fornecedor != null ? fornecedor.getForId() : null;
+}
 
-    public void setConFornecedor(Fornecedor conFornecedor) {
-        this.conFornecedor = conFornecedor;
+    public void setFornecedor(Fornecedor fornecedor) {
+        this.fornecedor = fornecedor;
     }
 
     public String getConCelular() {

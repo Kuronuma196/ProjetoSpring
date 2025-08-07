@@ -2,6 +2,11 @@ package org.example.entities;
 
 import org.hibernate.validator.constraints.br.CNPJ;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -10,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@EqualsAndHashCode(of = "forId")
+@ToString(exclude = {"enderecos", "contatos"})
 public class Fornecedor implements Serializable {
 
     @Id
@@ -17,11 +24,22 @@ public class Fornecedor implements Serializable {
     @Column(name = "FOR_ID")
     private Long forId;
 
-    @OneToMany(mappedBy = "endFornecedor", cascade = CascadeType.ALL)
+    // Other fields
+
+    
+    // Helper method to manage bidirectional relationship
+    public void addContato(Contato contato) {
+        contatos.add(contato);
+        contato.setFornecedor(this);
+    }
+    @OneToMany(mappedBy = "fornecedor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Contato> contatos = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "endFornecedor", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Endereco> enderecos = new ArrayList<>();
 
-    @OneToMany(mappedBy = "conFornecedor", cascade = CascadeType.ALL)
-    private List<Contato> conetatos = new ArrayList<>();
+   
 
     @NotBlank(message = "Nome é obrigatório!")
     @Size(max = 100, message = "Nome deve ter no máximo 100 caracteres!")
@@ -29,16 +47,22 @@ public class Fornecedor implements Serializable {
     private String forNomeFantasia;
 
     @NotBlank(message = "CNPJ é obrigatório!")
-    @CNPJ(message = "CNPJ é obrigatório!")
+    @CNPJ(message = "CNPJ inválido!")
     @Column(name = "FOR_CNPJ", nullable = false, unique = true, length = 18)
     private String forCnpj;
 
     @NotBlank(message = "Razão social é obrigatório!")
-    @Size(max = 100, message = "Razão social deve ter 100 caracteres!")
+    @Size(max = 100, message = "Razão social deve ter no máximo 100 caracteres!")
     @Column(name = "FOR_RAZAO_SOCIAL", nullable = false, unique = true, length = 100)
     private String forRazaoSocial;
 
-    public Fornecedor( String forCnpj, String forNomeFantasia, String forRazaoSocial) {
+    public Fornecedor() {
+    }
+
+    public Fornecedor(String forCnpj, String forNomeFantasia, String forRazaoSocial) {
+        this.forCnpj = forCnpj;
+        this.forNomeFantasia = forNomeFantasia;
+        this.forRazaoSocial = forRazaoSocial;
     }
 
     public Fornecedor(Long forId, String forNomeFantasia, String forCnpj, String forRazaoSocial) {
@@ -64,12 +88,12 @@ public class Fornecedor implements Serializable {
         this.enderecos = enderecos;
     }
 
-    public List<Contato> getConetatos() {
-        return conetatos;
+    public List<Contato> getContatos() {
+        return contatos;
     }
 
-    public void setConetatos(List<Contato> conetatos) {
-        this.conetatos = conetatos;
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
     }
 
     public String getForNomeFantasia() {

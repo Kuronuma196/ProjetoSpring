@@ -14,9 +14,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import dto.UsuarioBaseDTO;
+
 import java.util.Collections;
 
-@CrossOrigin(origins = "http://localhost:57737")
+@CrossOrigin(origins = "http://localhost:4200") // ajuste se necessário
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -40,11 +42,13 @@ public class AuthController {
     public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
         try {
             Authentication auth = authManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getSenha())
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getEmail(), loginRequest.getSenha()
+                    )
             );
 
             Usuario usuario = usuarioRepo.findByEmail(loginRequest.getEmail())
-                              .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                    .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
 
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getEmail());
             String token = jwtUtil.gerarToken(userDetails, usuario.getTipo());
@@ -54,21 +58,31 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(Collections.singletonMap("erro", "Email ou senha inválidos."));
         } catch (Exception e) {
-            e.printStackTrace(); // Importante: imprime erro no log do backend
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Collections.singletonMap("erro", "Erro interno no servidor"));
         }
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<?> cadastro(@RequestBody Usuario novoUsuario) {
-        if (usuarioRepo.findByEmail(novoUsuario.getEmail()).isPresent()) {
-            return ResponseEntity.status(HttpStatus.CONFLICT)
-                    .body(Collections.singletonMap("erro", "Email já cadastrado."));
-        }
-        Usuario criado = usuarioService.criarUsuario(novoUsuario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+public ResponseEntity<?> cadastro(@RequestBody UsuarioBaseDTO novoUsuarioDTO) {
+    if (usuarioRepo.findByEmail(novoUsuarioDTO.getEmail()).isPresent()) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(Collections.singletonMap("erro", "Email já cadastrado."));
     }
+
+    try {
+        Usuario criado = usuarioService.criarOuAtualizarUsuario(novoUsuarioDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+    } catch (IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(Collections.singletonMap("erro", e.getMessage()));
+    } catch (Exception e) {
+        e.printStackTrace();
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Collections.singletonMap("erro", "Erro interno no servidor"));
+    }
+}
+
 
     @GetMapping("/dados-funcionario")
     public ResponseEntity<?> dadosFuncionario(@RequestHeader("Authorization") String authHeader) {
