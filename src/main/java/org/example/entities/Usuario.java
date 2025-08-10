@@ -1,12 +1,17 @@
 package org.example.entities;
 
 import org.example.security.TipoUsuario;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "usuarios")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,25 +25,24 @@ public class Usuario {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private TipoUsuario tipo; // FUNCIONARIO, CLIENTE, ALUNO, FORNECEDOR
+    private TipoUsuario tipo;
 
-    // Relacionamento com Cliente
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cli_id")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "usuario")
+    private PerfilProfissional perfilProfissional;
+
+    
+
+   
+    
+    @OneToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
-
+    
+    // Make sure to initialize it as optional
     public Usuario() {
+        this.cliente = null; // or don't set it at all
     }
-
-    public Usuario(Long id, String email, String senha, TipoUsuario tipo) {
-        this.id = id;
-        this.email = email;
-        this.senha = senha;
-        this.tipo = tipo;
-    }
-
-    // Getters e setters
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -71,6 +75,14 @@ public class Usuario {
         this.tipo = tipo;
     }
 
+    public PerfilProfissional getPerfilProfissional() {
+        return perfilProfissional;
+    }
+
+    public void setPerfilProfissional(PerfilProfissional perfilProfissional) {
+        this.perfilProfissional = perfilProfissional;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -79,15 +91,39 @@ public class Usuario {
         this.cliente = cliente;
     }
 
-    @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-private PerfilProfissional perfilProfissional;
+    /* UserDetails Implementation */
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + tipo.name()));
+    }
 
-public PerfilProfissional getPerfilProfissional() {
-    return perfilProfissional;
-}
+    @Override
+    public String getPassword() {
+        return senha;
+    }
 
-public void setPerfilProfissional(PerfilProfissional perfilProfissional) {
-    this.perfilProfissional = perfilProfissional;
-}
+    @Override
+    public String getUsername() {
+        return email;
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

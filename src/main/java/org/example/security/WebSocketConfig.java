@@ -13,15 +13,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");   // Broker para enviar mensagens aos clientes
-        config.setApplicationDestinationPrefixes("/app");  // Prefixo para mensagens enviadas do cliente ao servidor
+        config.enableSimpleBroker("/topic"); // para subscrição
+        config.setApplicationDestinationPrefixes("/app"); // para envio
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws-chat")       // Endpoint para conexão WebSocket
-                .setAllowedOriginPatterns("*") // Permitir CORS para qualquer origem (ajustar em produção)
-                .withSockJS();                 // Fallback para browsers que não suportam WebSocket
+        registry
+            .addEndpoint("/ws-chat")
+            .addInterceptors(new JwtHandshakeInterceptor())
+            .setAllowedOrigins("*") // substitua por domínios seguros em produção
+            .withSockJS();
     }
 }
-

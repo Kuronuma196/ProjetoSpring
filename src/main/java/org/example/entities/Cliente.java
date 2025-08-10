@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "clientes")
 public class Cliente implements Serializable {
 
     @Id
@@ -33,25 +34,22 @@ public class Cliente implements Serializable {
     @Column(name = "CLI_CPF", nullable = false, unique = true, length = 11)
     private String cliCpf;
 
-    // Relacionamento com Usuario
-    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "cliente", cascade = CascadeType.ALL)
     private Usuario usuario;
 
-    public Cliente() {
+    public Cliente(Object object, String cliNome2, String cliCpf2) {
+        this.usuario = (Usuario) object;
+        this.cliNome = cliNome2;
+        this.cliCpf = cliCpf2;
     }
 
-    public Cliente(Long cliId, String cliNome, String cliCpf) {
-        this.id = cliId;
-        this.cliNome = cliNome;
-        this.cliCpf = cliCpf;
-    }
-
-    public Long getCliId() {
+    // Getters and Setters
+    public Long getId() {
         return id;
     }
 
-    public void setCliId(Long cliId) {
-        this.id = cliId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<Endereco> getEnderecos() {
@@ -66,8 +64,8 @@ public class Cliente implements Serializable {
         return contatos;
     }
 
-    public void setContatos(List<Contato> conetatos) {
-        this.contatos = conetatos;
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
     }
 
     public String getCliNome() {

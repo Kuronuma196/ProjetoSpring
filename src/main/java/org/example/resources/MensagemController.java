@@ -1,35 +1,64 @@
 package org.example.resources;
 
+import java.util.Optional;
+import javax.validation.Valid;
 import org.example.entities.Mensagem;
 import org.example.services.MensagemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import dto.MensagemDTO;
 
 @RestController
-@RequestMapping("/mensagens")
+@RequestMapping("/messages")
 @CrossOrigin(origins = "*")
+@Validated
 public class MensagemController {
 
-    @Autowired
-    private MensagemService mensagemService;
+    private final MensagemService mensagemService;
+
+    public MensagemController(MensagemService mensagemService) {
+        this.mensagemService = mensagemService;
+    }
+
+    @GetMapping("/conversation")
+    public ResponseEntity<Page<Mensagem>> getConversation(
+            @RequestParam Long userId1,
+            @RequestParam Long userId2,
+            @PageableDefault(size = 20) Pageable pageable) {
+        Page<Mensagem> conversation = mensagemService.getConversation(userId1, userId2, pageable);
+        return ResponseEntity.ok(conversation);
+    }
+
+    @GetMapping("/received/{userId}")
+    public ResponseEntity<Page<Mensagem>> getReceivedMessages(
+            @PathVariable Long userId,
+            @PageableDefault(size = 20) Pageable pageable) {
+        Page<Mensagem> messages = mensagemService.listarMensagensRecebidas(userId, pageable);
+        return ResponseEntity.ok(messages);
+    }
 
     @PostMapping
-    public ResponseEntity<Mensagem> enviarMensagem(@RequestBody Mensagem mensagem) {
-        return ResponseEntity.ok(mensagemService.enviarMensagem(mensagem));
+    public ResponseEntity<Mensagem> sendMessage(
+            @Valid @RequestBody MensagemDTO dto) {
+        Mensagem sentMessage = mensagemService.enviarMensagem(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(sentMessage);
     }
 
-    @GetMapping("/{remetenteId}/{destinatarioId}")
-    public ResponseEntity<List<Mensagem>> listarMensagensEntreUsuarios(
-            @PathVariable Long remetenteId,
-            @PathVariable Long destinatarioId) {
-        return ResponseEntity.ok(mensagemService.listarMensagensEntreUsuarios(remetenteId, destinatarioId));
+    @PutMapping("/{messageId}/read")
+    public ResponseEntity<Void> markAsRead(@PathVariable Long messageId) {
+        mensagemService.marcarComoLida(messageId);
+        return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/recebidas/{usuarioId}")
-    public ResponseEntity<List<Mensagem>> listarMensagensRecebidas(@PathVariable Long usuarioId) {
-        return ResponseEntity.ok(mensagemService.listarMensagensRecebidas(usuarioId));
+    @GetMapping("/{messageId}")
+    public ResponseEntity<Mensagem> getMessage(@PathVariable Long messageId) {
+        Optional<Mensagem> message = mensagemService.getMessage(messageId);
+        return message.map(ResponseEntity::ok)
+                     .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

@@ -1,12 +1,12 @@
 package org.example.security;
 
-
 import org.example.services.UsuarioDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -24,6 +24,19 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+        AuthenticationConfiguration authenticationConfiguration
+    ) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
     @Autowired
     private JwtFilter jwtFilter;
 
@@ -32,19 +45,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(usuarioDetailsService).passwordEncoder(passwordEncoder());
+        auth.userDetailsService(usuarioDetailsService)
+            .passwordEncoder(passwordEncoder());
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-            .cors()
-            .and()
+            .cors().and()
             .csrf().disable()
             .authorizeRequests()
-                // Rotas públicas - sem autenticação
+                // Public endpoints
                 .antMatchers(
                     "/auth/**",
+                    "/h2-console/**",
+                    "/ws/**",
+                    "/topic/**",
+                    "/app/**"
+                ).permitAll()
+                // Additional public endpoints
+                .antMatchers(
                     "/produtos/**",
                     "/usuarios/**",
                     "/clientes/**",
@@ -52,40 +72,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     "/fornecedores/**",
                     "/api/pesquisa"
                 ).permitAll()
-                // Demais rotas precisam de autenticação
+                // All other requests require authentication
                 .anyRequest().authenticated()
             .and()
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .headers().frameOptions().disable(); // para H2 console, remover se não usar
+            .headers().frameOptions().sameOrigin(); // For H2 console
 
-        // Importante: deixe o filtro JWT ignorar as rotas públicas
+        // Add JWT filter
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Permitir localhost para Angular (ajuste conforme necessário)
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200", "http://localhost:57737"));
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        configuration.setExposedHeaders(Arrays.asList("Authorization"));
         configuration.setAllowCredentials(true);
+        configuration.setMaxAge(3600L);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
-
         return source;
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+   
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+   
 }

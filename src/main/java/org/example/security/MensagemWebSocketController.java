@@ -1,6 +1,6 @@
 package org.example.security;
 
-
+import dto.MensagemDTO;
 import org.example.entities.Mensagem;
 import org.example.services.MensagemService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +11,17 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class MensagemWebSocketController {
 
-    @Autowired
-    private MensagemService mensagemService;
+    private final MensagemService mensagemService;
 
-    // Recebe mensagens do cliente no destino /app/chat.sendMessage
-    @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public Mensagem enviarMensagem(Mensagem mensagem) {
-        // Salva a mensagem no banco
-        return mensagemService.enviarMensagem(mensagem);
+    // Use constructor injection instead of @Autowired
+    public MensagemWebSocketController(MensagemService mensagemService) {
+        this.mensagemService = mensagemService;
+    }
+
+    // Changed to unique mapping
+    @MessageMapping("/chat.sendSecureMessage")
+    @SendTo("/topic/secure")
+    public Mensagem enviarMensagem(MensagemDTO dto) {
+        return mensagemService.enviarMensagem(dto);
     }
 }
-

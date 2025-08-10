@@ -14,6 +14,13 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     // Busca um usuário pelo email
     Optional<Usuario> findByEmail(String email);
 
+    // REMOVE THIS METHOD: Optional<Usuario> findByUsername(String username);
+    
+    // Add this method if you need username lookup by email
+    default Optional<Usuario> findByUsername(String username) {
+        return findByEmail(username);
+    }
+
     // Lista todos os usuários exceto o com o ID fornecido (ex: usuário logado)
     List<Usuario> findByIdNot(Long id);
 
